@@ -1,0 +1,56 @@
+﻿@model Park
+@{
+    ViewData["Title"] = "Detail";
+}
+<div class="park-content">
+    <img src="~/images/@(Model.ParkCode).jpg" />
+    <div class="park-info">
+        <p>@Model.ParkName</p>
+        <p>State: @Model.State</p>
+        <p>Size: @Model.Acreage acres</p>
+        <p>Elevation: @Model.ElevationInFt ft.</p>
+        <p>Trail Length: @Model.MilesOfTrail mi.</p>
+        <p>Campsites: @Model.NumberOfCampsites</p>
+        <p>Climate: @Model.Climate</p>
+        <p>Founded: @Model.YearFounded</p>
+        <p>Annual Visits: @Model.AnnualVisitorCount</p>
+        <em>@Model.Quote</em>
+        <h4>@Model.QuoteSource</h4>
+        <p>@Model.Description</p>
+        <p>Entry Fee: $@Model.EntryFee</p>
+        <p>Number of species: @Model.NumberOfAnimalSpecies</p>
+    </div>
+    <div class="park-forecast">
+        <div class="todays-forcast">
+            <h4>Today</h4>
+            <img src="~/images/@(Model.FiveDayForecast[0].Forecast).png" />
+            <div>
+                <p>High @Model.FiveDayForecast[0].High</p>
+                <p>Low @Model.FiveDayForecast[0].Low</p>
+
+                @if(Model.FiveDayForecast[0].Forecast == "snow")
+                {
+
+                }
+                else if (Model.FiveDayForecast[0].Forecast == "rain")
+                {
+
+                }
+                else if (Model.FiveDayForecast[0].Forecast == "thunderstorms")
+                {
+
+                }
+                else if (Model.FiveDayForecast[0].Forecast == "sunny")
+                {
+
+                }
+
+                @if(Model.FiveDayForecast[0].High > 75)
+            </div>
+        </div>
+        <div class="five-day-forecast">
+
+        </div>
+    </div>
+</div>
+

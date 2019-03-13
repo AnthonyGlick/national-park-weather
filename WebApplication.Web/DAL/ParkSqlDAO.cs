@@ -22,7 +22,7 @@ namespace WebApplication.Web.DAL
                 using(SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = "SELECT * FROM park;";
+                    string sql = "SELECT * FROM park ORDER BY parkName;";
                     SqlCommand cmd = new SqlCommand(sql, conn);
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -52,7 +52,7 @@ namespace WebApplication.Web.DAL
             park.ParkName = Convert.ToString(reader["parkName"]);
             park.State = Convert.ToString(reader["state"]);
             park.Acreage = Convert.ToInt32(reader["acreage"]);
-            park.ElevationInFt = Convert.ToInt32(reader["elevation"]);
+            park.ElevationInFt = Convert.ToInt32(reader["elevationInFeet"]);
             park.MilesOfTrail = Convert.ToDouble(reader["milesOfTrail"]);
             park.NumberOfCampsites = Convert.ToInt32(reader["numberOfCampsites"]);
             park.Climate = Convert.ToString(reader["climate"]);

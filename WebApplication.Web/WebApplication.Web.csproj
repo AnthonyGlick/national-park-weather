@@ -7,11 +7,15 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\" />
+    <None Include="wwwroot\images\backpack.png" />
+    <None Include="wwwroot\images\backpack2.jpg" />
+    <None Include="wwwroot\images\geek.png" />
+    <None Include="wwwroot\images\logo.png" />
+    <None Include="wwwroot\images\scenery.png" />
   </ItemGroup>
 
 </Project>
