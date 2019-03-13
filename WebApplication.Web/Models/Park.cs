@@ -74,5 +74,7 @@ namespace WebApplication.Web.Models
         /// The five day forecast for the park.
         /// </summary>
         public IList<DailyWeather> FiveDayForecast { get; set; }
+
+        public IList<Survey> Surveys { get; set; }
     }
 }

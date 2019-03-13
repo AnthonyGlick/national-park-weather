@@ -64,6 +64,7 @@ namespace WebApplication.Web.DAL
             park.EntryFee = Convert.ToInt32(reader["entryFee"]);
             park.NumberOfAnimalSpecies = Convert.ToInt32(reader["numberOfAnimalSpecies"]);
             park.FiveDayForecast = GetForecast(park.ParkCode);
+            park.Surveys = GetSurveys(park.ParkCode);
 
             return park;
         }
@@ -122,6 +123,45 @@ namespace WebApplication.Web.DAL
                 throw;
             }
             return forecast;
+        }
+
+        public IList<Survey> GetSurveys(string parkCode)
+        {
+            IList<Survey> surveys = new List<Survey>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = "SELECT * FROM survey_result WHERE parkCode = @parkCode;";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@parkCode", parkCode);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Survey survey = ConvertReaderToSurvey(reader);
+                        surveys.Add(survey);
+                    }
+                }
+            }
+            catch (SqlException x)
+            {
+                //Log?
+                throw;
+            }
+            return surveys;
+        }
+
+        private Survey ConvertReaderToSurvey(SqlDataReader reader)
+        {
+            Survey survey = new Survey();
+            survey.SurveyId = Convert.ToInt32(reader["surveyId"]);
+            survey.ParkCode = Convert.ToString(reader["parkCode"]);
+            survey.Email = Convert.ToString(reader["emailAddress"]);
+            survey.State = Convert.ToString(reader["state"]);
+            survey.ActivityLevel = Convert.ToString(reader["activityLevel"]);
+
+            return survey;
         }
 
         private DailyWeather ConvertReaderToDailyWeather(SqlDataReader reader)
