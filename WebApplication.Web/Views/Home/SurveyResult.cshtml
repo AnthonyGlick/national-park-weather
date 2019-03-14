@@ -2,13 +2,13 @@
 @{
     ViewData["Title"] = "SurveyResult";
 }
-<div>
+<div class="surveys">
     @foreach (Park park in Model)
     {
         if (park.Surveys.Count > 0)
         {
-            <div>
-                <img src="~/images/@(park.ParkCode).jpg" />
+            <div class="survey-result">
+                <img class ="survey-img" src="~/images/@(park.ParkCode).jpg" />
                 <p>@park.ParkName</p>
                 <p>Favorited: @park.Surveys.Count</p>
             </div>

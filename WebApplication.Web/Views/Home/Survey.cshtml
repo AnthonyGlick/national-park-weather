@@ -6,7 +6,7 @@
     List<Park> parks = (List<Park>)ViewData["Parks"];
 }
 
-<form method="post" asp-controller="Home" asp-action="Survey">
+<form class="survey-form" method="post" asp-controller="Home" asp-action="Survey">
     <div class="parks">
         <label asp-for="ParkCode">Favorite National Park</label>
         <select asp-for="ParkCode">

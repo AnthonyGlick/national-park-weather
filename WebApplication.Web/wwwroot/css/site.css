@@ -1,1 +1,93 @@
-﻿
+﻿img {
+    width: 100%;
+}
+
+.logo {
+    height: 200px;
+    width: auto;
+}
+
+.park {
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr 100px;
+    grid-template-areas:
+        ". index-img park-info-small .";
+    padding-bottom: 20px;
+}
+
+.index-img{
+    grid-area: index-img;
+    padding-right: 20px;
+}
+
+.park-info-small{
+    grid-area: park-info-small;
+    padding-left: 20px;
+}
+
+.park-name{
+    margin-top: 0px;
+    margin-bottom: 15px;
+}
+
+.park-content {
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr 1fr 1fr 100px;
+    grid-template-areas: 
+        ". detail-img detail-img detail-img detail-img ."
+        ". park-name-detail park-name-detail . . ."
+        ". park-info park-info park-info park-info ."
+        ". park-forecast park-forecast park-forecast park-forecast ."
+}
+
+.detail-img{
+    grid-area: detail-img;
+}
+
+.park-name-detail {
+    grid-area: park-name-detail;
+}
+
+.park-info{
+    grid-area: park-info;
+}
+
+.park-forecast{
+    grid-area: park-forecast;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-areas:
+        "todays-forecast . five-day-forecast five-day-forecast";
+}
+
+.todays-forecast {
+    grid-area: todays-forecast;
+}
+
+.five-day-forecast{
+    grid-area: five-day-forecast;
+    display: flex;
+    padding-top: 140px;
+}
+
+.survey-form{
+    margin: 0px 100px;
+}
+
+.survey-result{
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 15px;
+    justify-content: space-between;
+    align-items:center;
+}
+
+.survey-img {
+    height: 80px;
+    width:auto;
+    padding-right: 50px;
+}
+
+.surveys{
+    margin: 0px 100px;
+}

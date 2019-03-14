@@ -23,6 +23,7 @@ namespace WebApplication.Web.Models
         /// The user's email address.
         /// </summary>
         [EmailAddress]
+        [Required]
         public string Email { get; set; }
         /// <summary>
         /// The state the user resides in.

@@ -171,6 +171,8 @@ namespace WebApplication.Web.DAL
             weather.Day = Convert.ToInt32(reader["fiveDayForecastValue"]);
             weather.Low = Convert.ToInt32(reader["low"]);
             weather.High = Convert.ToInt32(reader["high"]);
+            weather.LowDisplay = Convert.ToInt32(reader["low"]);
+            weather.HighDisplay = Convert.ToInt32(reader["high"]);
             weather.Forecast = Convert.ToString(reader["forecast"]);
 
             return weather;

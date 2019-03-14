@@ -7,13 +7,13 @@
 <div class="parks">
     @foreach (Park park in Model)
     {
-        <div class="park">
-            <img src="~/images/@(park.ParkCode.ToLower()).jpg" />
-            <div class="park-info-small">
-                <a asp-controller="Home" asp-action="Detail" asp-route-id="@park.ParkCode"><p>@park.ParkName</p></a>
-                <p>@park.Description</p>
-            </div>
+    <div class="park">
+        <a class="index-img" asp-controller="Home" asp-action="Detail" asp-route-id="@park.ParkCode"><img src="~/images/@(park.ParkCode.ToLower()).jpg" /></a>
+        <div class="park-info-small">
+            <a asp-controller="Home" asp-action="Detail" asp-route-id="@park.ParkCode"><h1 class="park-name">@park.ParkName</h1></a>
+            <p>@park.Description</p>
         </div>
+    </div>
     }
 </div>
 

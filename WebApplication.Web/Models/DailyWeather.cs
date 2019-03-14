@@ -24,6 +24,14 @@ namespace WebApplication.Web.Models
         /// </summary>
         public int High { get; set; }
         /// <summary>
+        /// Represents the low temperature display for the day.
+        /// </summary>
+        public int LowDisplay { get; set; }
+        /// <summary>
+        /// Represents the high temperature display for the day.
+        /// </summary>
+        public int HighDisplay { get; set; }
+        /// <summary>
         /// Forecast of the weather for the park on a given day.
         /// </summary>
         public string Forecast { get; set; }

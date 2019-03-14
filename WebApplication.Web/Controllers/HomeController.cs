@@ -36,8 +36,8 @@ namespace WebApplication.Web.Controllers
     
                 foreach(DailyWeather forecast in park.FiveDayForecast)
                 {
-                    forecast.Low = (int)((forecast.Low - 32) / 1.8);
-                    forecast.High = (int)((forecast.High - 32) / 1.8);
+                    forecast.LowDisplay = (int)((forecast.Low - 32) / 1.8);
+                    forecast.HighDisplay = (int)((forecast.High - 32) / 1.8);
                 }
             }
             return View(park);
