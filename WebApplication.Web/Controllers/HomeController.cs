@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SessionCart.Web.Extensions;
 using WebApplication.Web.DAL;
 using WebApplication.Web.Models;
 
@@ -29,9 +30,24 @@ namespace WebApplication.Web.Controllers
         public IActionResult Detail(string id)
         {
             Park park = parkDao.GetPark(id);
+
+            if(HttpContext.Session.Get<string>("unit") == "C")
+            {
+    
+                foreach(DailyWeather forecast in park.FiveDayForecast)
+                {
+                    forecast.Low = (int)((forecast.Low - 32) / 1.8);
+                    forecast.High = (int)((forecast.High - 32) / 1.8);
+                }
+            }
             return View(park);
         }
-
+        
+        public IActionResult ChangeUnit(string id, string unit)
+        {
+            HttpContext.Session.Set("unit", unit);
+            return RedirectToAction("Detail", "Home", new { id });
+        }
         [HttpGet]
         public IActionResult Survey()
         {
@@ -123,8 +139,9 @@ namespace WebApplication.Web.Controllers
         public IActionResult SurveyResult()
         {
             IList<Park> parks = parkDao.GetParks();
-            parks.OrderBy(x => x.Surveys.Count);
-            return View(parks);
+            var parksInOrder = parks.OrderBy(park => park.Surveys.Count).ToList<Park>();
+            parksInOrder.Reverse();
+            return View(parksInOrder);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

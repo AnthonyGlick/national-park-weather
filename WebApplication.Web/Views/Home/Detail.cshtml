@@ -20,6 +20,12 @@
         <p>Entry Fee: $@Model.EntryFee</p>
         <p>Number of species: @Model.NumberOfAnimalSpecies</p>
     </div>
+    <form asp-controller="Home" asp-action="ChangeUnit"  >
+        <input type="radio" value="F" name="unit" id="unit" /><p>F</p>
+        <input type="radio" value="C" name="unit" id="unit"/><p>C</p>
+        <input type="hidden" value="@Model.ParkCode" id="id" name ="id"/>
+        <input type="submit" value="Select Unit" />
+    </form>
     <div class="park-forecast">
         <div class="todays-forcast">
             <h4>Today</h4>
