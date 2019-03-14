@@ -1,0 +1,50 @@
+﻿@model Survey
+@{
+    ViewData["Title"] = "Survey";
+    List<string> states = (List<string>)ViewData["States"];
+    List<string> activityLevels = (List<string>)ViewData["ActivityLevels"];
+    List<Park> parks = (List<Park>)ViewData["Parks"];
+}
+
+<form method="post" asp-controller="Home" asp-action="Survey">
+    <div class="parks">
+        <label asp-for="ParkCode">Favorite National Park</label>
+        <select asp-for="ParkCode">
+            @foreach (Park park in parks)
+            {
+                <option value="@park.ParkCode">@(park.ParkName)</option>
+            }
+        </select>
+        <span class="error" asp-validation-for="ParkCode"></span>
+    </div>
+
+    <div class="email">
+        <label asp-for="Email">Your email</label>
+        <input type="email" asp-for="Email" />
+        <span class="error" asp-validation-for="Email"></span>
+    </div>
+
+    <div class="state">
+        <label asp-for="State">State of residence</label>
+        <select asp-for="State">
+            @foreach (string state in states)
+            {
+                <option value="@state">@state</option>
+            }
+        </select>
+        <span class="error" asp-validation-for="State"></span>
+    </div>
+
+    <div class="activityLevel">
+        <label asp-for="ActivityLevel">Activity level</label>
+        @foreach (string level in activityLevels)
+        {
+            <input type="radio" asp-for="ActivityLevel" name="ActivityLevel" value="@level" />@level
+        }
+            <span class="error" asp-validation-for="ActivityLevel"></span>
+    </div>
+    
+
+    <input type="submit" value="Submit" />
+</form>
+
