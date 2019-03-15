@@ -7,19 +7,21 @@ using WebApplication.Web.Models;
 
 namespace WebApplication.Web.DAL
 {
-    public class ParkSqlDAO: IParkDAO
+    public class ParkSqlDAO : IParkDAO
     {
         private string connectionString;
+
         public ParkSqlDAO(string connectionString)
         {
             this.connectionString = connectionString;
         }
+
         public IList<Park> GetParks()
         {
             IList<Park> parks = new List<Park>();
             try
             {
-                using(SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(this.connectionString))
                 {
                     conn.Open();
                     string sql = "SELECT * FROM park ORDER BY parkName;";
@@ -27,24 +29,25 @@ namespace WebApplication.Web.DAL
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        Park park = ConvertReaderToPark(reader);
+                        Park park = this.ConvertReaderToPark(reader);
                         parks.Add(park);
                     }
                 }
             }
-            catch(SqlException ex)
+            catch (SqlException ex)
             {
-                //LOG??!?!@?#?'
+                // LOG??!?!@?#?'
                 throw;
             }
+
             return parks;
         }
 
         /// <summary>
         /// Converts a reader object to a park.
         /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
+        /// <param name="reader">reader object</param>
+        /// <returns>Park object</returns>
         private Park ConvertReaderToPark(SqlDataReader reader)
         {
             Park park = new Park();
@@ -67,13 +70,17 @@ namespace WebApplication.Web.DAL
             return park;
         }
 
-
+        /// <summary>
+        /// Gets a park for the given park code.
+        /// </summary>
+        /// <param name="parkCode">Park Code</param>
+        /// <returns>Park Object</returns>
         public Park GetPark(string parkCode)
         {
             Park park = new Park();
             try
             {
-                using(SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(this.connectionString))
                 {
                     conn.Open();
                     string sql = "SELECT * FROM park WHERE parkCode = @parkCode;";
@@ -82,24 +89,30 @@ namespace WebApplication.Web.DAL
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        park = ConvertReaderToPark(reader);
+                        park = this.ConvertReaderToPark(reader);
                     }
                 }
             }
             catch (SqlException x)
             {
-                //LOG?!
+                // LOG?!
                 throw;
             }
+
             return park;
         }
 
+        /// <summary>
+        /// Returns a list of DailyWeather objects for a given park code.
+        /// </summary>
+        /// <param name="parkCode">Park code</param>
+        /// <returns>IList of DailyWeather objects</returns>
         public IList<DailyWeather> GetForecast(string parkCode)
         {
             IList<DailyWeather> forecast = new List<DailyWeather>();
             try
             {
-               using(SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(this.connectionString))
                 {
                     conn.Open();
                     string sql = "SELECT * FROM weather WHERE parkCode = @parkCode;";
@@ -108,27 +121,31 @@ namespace WebApplication.Web.DAL
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        DailyWeather weather = ConvertReaderToDailyWeather(reader);
+                        DailyWeather weather = this.ConvertReaderToDailyWeather(reader);
                         forecast.Add(weather);
                     }
-
                 }
-
             }
             catch (SqlException x)
             {
-                //LOG%#$$%^$%^&%^&*&^@#$%R?
+                // LOG%#$$%^$%^&%^&*&^@#$%R?
                 throw;
             }
+
             return forecast;
         }
 
+        /// <summary>
+        /// Returns a list of surveys for a the given park code.
+        /// </summary>
+        /// <param name="parkCode">Park Code</param>
+        /// <returns>IList of Surveys</returns>
         public IList<Survey> GetSurveys(string parkCode)
         {
             IList<Survey> surveys = new List<Survey>();
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(this.connectionString))
                 {
                     conn.Open();
                     string sql = "SELECT * FROM survey_result WHERE parkCode = @parkCode;";
@@ -137,19 +154,25 @@ namespace WebApplication.Web.DAL
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        Survey survey = ConvertReaderToSurvey(reader);
+                        Survey survey = this.ConvertReaderToSurvey(reader);
                         surveys.Add(survey);
                     }
                 }
             }
             catch (SqlException x)
             {
-                //Log?
+                // Log?
                 throw;
             }
+
             return surveys;
         }
 
+        /// <summary>
+        /// Converts a reader object to a Survey object.
+        /// </summary>
+        /// <param name="reader">reader object</param>
+        /// <returns>Survey Object</returns>
         private Survey ConvertReaderToSurvey(SqlDataReader reader)
         {
             Survey survey = new Survey();
@@ -162,6 +185,11 @@ namespace WebApplication.Web.DAL
             return survey;
         }
 
+        /// <summary>
+        /// Converts a reader object to a DailyWeather object.
+        /// </summary>
+        /// <param name="reader">Reader Object</param>
+        /// <returns>DailyWeather Object</returns>
         private DailyWeather ConvertReaderToDailyWeather(SqlDataReader reader)
         {
             DailyWeather weather = new DailyWeather();
@@ -175,15 +203,16 @@ namespace WebApplication.Web.DAL
 
             return weather;
         }
+
         /// <summary>
         /// Saves a survey to the database.
         /// </summary>
-        /// <param name="survey"></param>
+        /// <param name="survey">Survey object</param>
         public void AddSurvey(Survey survey)
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(this.connectionString))
                 {
                     conn.Open();
                     string sql = "INSERT INTO survey_result VALUES(@parkCode, @emailAddress, @state, @activityLevel);";
@@ -198,10 +227,9 @@ namespace WebApplication.Web.DAL
             }
             catch (SqlException x)
             {
-                //LOG
+                // LOG
                 throw;
             }
         }
     }
 }
-

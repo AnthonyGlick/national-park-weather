@@ -38,7 +38,7 @@ namespace WebApplication.Web.DAL
                     return;
                 }
             }
-            catch(SqlException ex)
+            catch (SqlException ex)
             {
                 throw ex;
             }
@@ -47,16 +47,16 @@ namespace WebApplication.Web.DAL
         /// <summary>
         /// Deletes the user from the database.
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="user">User</param>
         public void DeleteUser(User user)
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(this.connectionString))
                 {
                     conn.Open();
                     SqlCommand cmd = new SqlCommand("DELETE FROM users WHERE id = @id;", conn);
-                    cmd.Parameters.AddWithValue("@id", user.Id);                    
+                    cmd.Parameters.AddWithValue("@id", user.Id);
 
                     cmd.ExecuteNonQuery();
 
@@ -72,14 +72,14 @@ namespace WebApplication.Web.DAL
         /// <summary>
         /// Gets the user from the database.
         /// </summary>
-        /// <param name="username"></param>
-        /// <returns></returns>
+        /// <param name="username">Username</param>
+        /// <returns>User object</returns>
         public User GetUser(string username)
         {
             User user = null;
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(this.connectionString))
                 {
                     conn.Open();
                     SqlCommand cmd = new SqlCommand("SELECT * FROM USERS WHERE username = @username;", conn);
@@ -89,7 +89,7 @@ namespace WebApplication.Web.DAL
 
                     if (reader.Read())
                     {
-                        user = MapRowToUser(reader);
+                        user = this.MapRowToUser(reader);
                     }
                 }
 
@@ -98,18 +98,18 @@ namespace WebApplication.Web.DAL
             catch (SqlException ex)
             {
                 throw ex;
-            }            
+            }
         }
 
         /// <summary>
         /// Updates the user in the database.
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="user">User object</param>
         public void UpdateUser(User user)
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(this.connectionString))
                 {
                     conn.Open();
                     SqlCommand cmd = new SqlCommand("UPDATE users SET password = @password, salt = @salt, role = @role WHERE id = @id;", conn);                    

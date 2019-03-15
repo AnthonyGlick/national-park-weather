@@ -8,13 +8,13 @@ namespace WebApplication.Web.Models
     public class SurveyResult
     {
         /// <summary>
-        /// The number of surveys submitted for a particular park.
+        /// Gets or sets the number of surveys submitted for a particular park.
         /// </summary>
         public int SurveyCount { get; set; }
+
         /// <summary>
-        /// The park we are getting results for.
+        /// Gets or sets the park we are getting results for.
         /// </summary>
         public Park Park { get; set; }
-
     }
 }

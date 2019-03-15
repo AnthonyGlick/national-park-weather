@@ -11,13 +11,13 @@ namespace WebApplication.Web.DAL
         /// <summary>
         /// Returns a list of all the parks.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>IList of Parks</returns>
         IList<Park> GetParks();
 
         /// <summary>
         /// Returns an individual park.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A Park Object</returns>
         Park GetPark(string parkCode);
 
         IList<DailyWeather> GetForecast(string parkCode);

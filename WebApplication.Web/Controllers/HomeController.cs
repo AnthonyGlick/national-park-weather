@@ -14,50 +14,58 @@ namespace WebApplication.Web.Controllers
     {
         private IParkDAO parkDao;
 
-        public HomeController (IParkDAO parkDao)
+        public HomeController(IParkDAO parkDao)
         {
             this.parkDao = parkDao;
         }
 
         public IActionResult Index()
         {
-            IList<Park> parks = parkDao.GetParks();
-            return View(parks);
+            IList<Park> parks = this.parkDao.GetParks();
+            return this.View(parks);
         }
 
         public IActionResult Detail(string id)
         {
             ParkDetail park = new ParkDetail()
             {
-                Park = parkDao.GetPark(id),
-                FiveDayForecast = parkDao.GetForecast(id),
-                
+                Park = this.parkDao.GetPark(id),
+                FiveDayForecast = this.parkDao.GetForecast(id)
             };
 
-            if(HttpContext.Session.Get<string>("unit") == "C")
+            if (this.HttpContext.Session.Get<string>("unit") == "C")
             {
-    
-                foreach(DailyWeather forecast in park.FiveDayForecast)
+                foreach (DailyWeather forecast in park.FiveDayForecast)
                 {
                     forecast.LowDisplay = (int)((forecast.Low - 32) / 1.8);
                     forecast.HighDisplay = (int)((forecast.High - 32) / 1.8);
                 }
             }
-            return View(park);
+
+            return this.View(park);
         }
-        
+
+        /// <summary>
+        /// Changes display temperature between Farenheit and Centigrade.
+        /// </summary>
+        /// <param name="id">park id</param>
+        /// <param name="unit">unit of measure</param>
+        /// <returns>Redirect to update units page</returns>
         public IActionResult ChangeUnit(string id, string unit)
         {
-            HttpContext.Session.Set("unit", unit);
-            return RedirectToAction("Detail", "Home", new { id });
+            this.HttpContext.Session.Set("unit", unit);
+            return this.RedirectToAction("Detail", "Home", new { id });
         }
+
+        /// <summary>
+        /// Takes the user to the survey form view.
+        /// </summary>
+        /// <returns>Redirect to survey results page if post successful.</returns>
         [HttpGet]
         public IActionResult Survey()
         {
-            IList<Park> parks = parkDao.GetParks();
-            ViewData["Parks"] = parks;
-            
-
+            IList<Park> parks = this.parkDao.GetParks();
+            this.ViewData["Parks"] = parks;
             IList<string> states = new List<string>()
             {
                 "Alabama",
@@ -110,9 +118,9 @@ namespace WebApplication.Web.Controllers
                 "West Virginia",
                 "Wisconsin",
                 "Wyoming"
-
             };
-            ViewData["States"] = states;
+
+            this.ViewData["States"] = states;
 
             IList<string> activityLevel = new List<string>()
             {
@@ -121,48 +129,53 @@ namespace WebApplication.Web.Controllers
                 "active",
                 "extremely active"
             };
-            ViewData["ActivityLevels"] = activityLevel;
 
-            return View();
+            this.ViewData["ActivityLevels"] = activityLevel;
+
+            return this.View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Survey(Survey survey)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                parkDao.AddSurvey(survey);
-                return RedirectToAction("SurveyResult");
+                this.parkDao.AddSurvey(survey);
+                return this.RedirectToAction("SurveyResult");
             }
 
-            return View(survey);
-            
+            return this.View(survey);
         }
 
+        /// <summary>
+        /// Takes the user to the SurveyResults page if they have filled out the survey form correctly.
+        /// </summary>
+        /// <returns>Results view page or return to previous view.</returns>
         public IActionResult SurveyResult()
         {
-            IList<Park> parks = parkDao.GetParks();
+            IList<Park> parks = this.parkDao.GetParks();
             IList<ParkDetail> model = new List<ParkDetail>();
-            foreach(Park park in parks)
+            foreach (Park park in parks)
             {
                 ParkDetail pd = new ParkDetail()
                 {
                     Park = park,
-                    Surveys = parkDao.GetSurveys(park.ParkCode)
+                    Surveys = this.parkDao.GetSurveys(park.ParkCode)
                 };
 
                 model.Add(pd);
             }
+
             var parksInOrder = model.OrderBy(park => park.Surveys.Count).ToList<ParkDetail>();
             parksInOrder.Reverse();
-            return View(parksInOrder);
+            return this.View(parksInOrder);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return this.View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
         }
     }
 }
