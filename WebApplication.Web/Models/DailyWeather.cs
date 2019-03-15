@@ -28,7 +28,7 @@ namespace WebApplication.Web.Models
         public int High { get; set; }
 
         /// <summary>
-        ///Gets or sets the low temperature display for the day.
+        /// Gets or sets the low temperature display for the day.
         /// </summary>
         public int LowDisplay { get; set; }
 
