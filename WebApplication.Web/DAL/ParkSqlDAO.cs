@@ -63,8 +63,6 @@ namespace WebApplication.Web.DAL
             park.Description = Convert.ToString(reader["parkDescription"]);
             park.EntryFee = Convert.ToInt32(reader["entryFee"]);
             park.NumberOfAnimalSpecies = Convert.ToInt32(reader["numberOfAnimalSpecies"]);
-            park.FiveDayForecast = GetForecast(park.ParkCode);
-            park.Surveys = GetSurveys(park.ParkCode);
 
             return park;
         }
@@ -96,7 +94,7 @@ namespace WebApplication.Web.DAL
             return park;
         }
 
-        private IList<DailyWeather> GetForecast(string parkCode)
+        public IList<DailyWeather> GetForecast(string parkCode)
         {
             IList<DailyWeather> forecast = new List<DailyWeather>();
             try
@@ -177,5 +175,33 @@ namespace WebApplication.Web.DAL
 
             return weather;
         }
+        /// <summary>
+        /// Saves a survey to the database.
+        /// </summary>
+        /// <param name="survey"></param>
+        public void AddSurvey(Survey survey)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = "INSERT INTO survey_result VALUES(@parkCode, @emailAddress, @state, @activityLevel);";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@parkCode", survey.ParkCode);
+                    cmd.Parameters.AddWithValue("@emailAddress", survey.Email);
+                    cmd.Parameters.AddWithValue("@state", survey.State);
+                    cmd.Parameters.AddWithValue("@activityLevel", survey.ActivityLevel);
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+            catch (SqlException x)
+            {
+                //LOG
+                throw;
+            }
+        }
     }
 }
+

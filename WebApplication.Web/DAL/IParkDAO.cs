@@ -19,5 +19,11 @@ namespace WebApplication.Web.DAL
         /// </summary>
         /// <returns></returns>
         Park GetPark(string parkCode);
+
+        IList<DailyWeather> GetForecast(string parkCode);
+
+        IList<Survey> GetSurveys(string parkCode);
+
+        void AddSurvey(Survey survey);
     }
 }

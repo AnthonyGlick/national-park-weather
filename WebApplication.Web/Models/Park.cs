@@ -70,11 +70,6 @@ namespace WebApplication.Web.Models
         /// The number of different animal species in the park.
         /// </summary>
         public int NumberOfAnimalSpecies { get; set; }
-        /// <summary>
-        /// The five day forecast for the park.
-        /// </summary>
-        public IList<DailyWeather> FiveDayForecast { get; set; }
 
-        public IList<Survey> Surveys { get; set; }
     }
 }

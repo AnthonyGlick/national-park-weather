@@ -1,25 +1,25 @@
-﻿@model Park
+﻿@model ParkDetail
 @{
     ViewData["Title"] = "Detail";
 }
 <div class="park-content">
-    <img class="detail-img" src="~/images/@(Model.ParkCode).jpg" />
-    <h1 class="park-name-detail">@Model.ParkName</h1>
+    <img class="detail-img" src="~/images/@(Model.Park.ParkCode).jpg" />
+    <h1 class="park-name-detail">@Model.Park.ParkName</h1>
     <div class="park-info">
-        <p>State: @Model.State</p>
-        <p>Size: @Model.Acreage acres</p>
-        <p>Elevation: @Model.ElevationInFt ft.</p>
-        <p>Trail Length: @Model.MilesOfTrail mi.</p>
-        <p>Campsites: @Model.NumberOfCampsites</p>
-        <p>Climate: @Model.Climate</p>
-        <p>Year Founded: @Model.YearFounded</p>
-        <p>Annual Visits: @Model.AnnualVisitorCount</p>
-        <h3 class="text-right"><em>@Model.Quote</em></h3>
-        <h4 class="text-right">- @Model.QuoteSource</h4>
+        <p>State: @Model.Park.State</p>
+        <p>Size: @Model.Park.Acreage acres</p>
+        <p>Elevation: @Model.Park.ElevationInFt ft.</p>
+        <p>Trail Length: @Model.Park.MilesOfTrail mi.</p>
+        <p>Campsites: @Model.Park.NumberOfCampsites</p>
+        <p>Climate: @Model.Park.Climate</p>
+        <p>Year Founded: @Model.Park.YearFounded</p>
+        <p>Annual Visits: @Model.Park.AnnualVisitorCount</p>
+        <h3 class="text-right"><em>@Model.Park.Quote</em></h3>
+        <h4 class="text-right">- @Model.Park.QuoteSource</h4>
         <br /><br />
-        <p>@Model.Description</p>
-        <p>Entry Fee: $@Model.EntryFee</p>
-        <p>Number of species: @Model.NumberOfAnimalSpecies</p>
+        <p>@Model.Park.Description</p>
+        <p>Entry Fee: $@Model.Park.EntryFee</p>
+        <p>Number of species: @Model.Park.NumberOfAnimalSpecies</p>
     </div>
     
     <div class="park-forecast">
@@ -27,7 +27,7 @@
             <form asp-controller="Home" asp-action="ChangeUnit">
                 <input type="radio" value="F" name="unit" id="unit" /> F
                 <input type="radio" value="C" name="unit" id="unit" /> C
-                <input type="hidden" value="@Model.ParkCode" id="id" name="id" />
+                <input type="hidden" value="@Model.Park.ParkCode" id="id" name="id" />
                 <input type="submit" value="Select Unit" />
             </form>
             <h4>Today</h4>

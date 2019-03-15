@@ -13,12 +13,10 @@ namespace WebApplication.Web.Controllers
     public class HomeController : Controller
     {
         private IParkDAO parkDao;
-        private ISurveyDAO surveyDao;
 
-        public HomeController (IParkDAO parkDao, ISurveyDAO surveyDao)
+        public HomeController (IParkDAO parkDao)
         {
             this.parkDao = parkDao;
-            this.surveyDao = surveyDao;
         }
 
         public IActionResult Index()
@@ -29,7 +27,12 @@ namespace WebApplication.Web.Controllers
 
         public IActionResult Detail(string id)
         {
-            Park park = parkDao.GetPark(id);
+            ParkDetail park = new ParkDetail()
+            {
+                Park = parkDao.GetPark(id),
+                FiveDayForecast = parkDao.GetForecast(id),
+                
+            };
 
             if(HttpContext.Session.Get<string>("unit") == "C")
             {
@@ -53,6 +56,7 @@ namespace WebApplication.Web.Controllers
         {
             IList<Park> parks = parkDao.GetParks();
             ViewData["Parks"] = parks;
+            
 
             IList<string> states = new List<string>()
             {
@@ -128,7 +132,7 @@ namespace WebApplication.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                surveyDao.AddSurvey(survey);
+                parkDao.AddSurvey(survey);
                 return RedirectToAction("SurveyResult");
             }
 
@@ -139,7 +143,18 @@ namespace WebApplication.Web.Controllers
         public IActionResult SurveyResult()
         {
             IList<Park> parks = parkDao.GetParks();
-            var parksInOrder = parks.OrderBy(park => park.Surveys.Count).ToList<Park>();
+            IList<ParkDetail> model = new List<ParkDetail>();
+            foreach(Park park in parks)
+            {
+                ParkDetail pd = new ParkDetail()
+                {
+                    Park = park,
+                    Surveys = parkDao.GetSurveys(park.ParkCode)
+                };
+
+                model.Add(pd);
+            }
+            var parksInOrder = model.OrderBy(park => park.Surveys.Count).ToList<ParkDetail>();
             parksInOrder.Reverse();
             return View(parksInOrder);
         }
