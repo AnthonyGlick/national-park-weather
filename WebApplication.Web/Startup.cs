@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebApplication.Web.DAL;
-using WebApplication.Web.Providers.Auth;
 
 namespace WebApplication.Web
 {
@@ -30,7 +29,7 @@ namespace WebApplication.Web
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This determines whether user consent for non-essential cookies
-                //is needed.
+                // is needed.
                 options.CheckConsentNeeded = context => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
@@ -48,9 +47,7 @@ namespace WebApplication.Web
             // For access to session outside of controller
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             // For access to an authentication provider
-            services.AddScoped<IAuthProvider, SessionAuthProvider>();
             // For access to a dao
-            services.AddTransient<IUserDAO>(m => new UserSqlDAO(Configuration.GetConnectionString("NPGeek")));
             services.AddTransient<IParkDAO>(m => new ParkSqlDAO(Configuration.GetConnectionString("NPGeek")));
 
 

@@ -30,4 +30,9 @@
     <None Include="wwwroot\images\scenery.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewComponents\" />
+    <Folder Include="Views\Shared\Components\NavBar\" />
+  </ItemGroup>
+
 </Project>
